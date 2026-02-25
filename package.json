@@ -1,0 +1,21 @@
+{
+  "name": "sfood-mb-web-v1",
+  "version": "1.0.0",
+  "description": "메모 보드 웹 v1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1/issues"
+  },
+  "homepage": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1#readme"
+}
