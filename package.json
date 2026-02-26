@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.mjs",
     "dev": "node server.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "test:api": "RUN_API_TESTS=1 node --test tests/api.integration.test.js"
   },
   "repository": {
     "type": "git",
