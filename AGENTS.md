@@ -83,3 +83,84 @@ You are Codex, based on GPT-5. You are running as a coding agent in the Codex CL
 - Do not tell the user to copy/save files on their own machine.
 - For code changes, explain what changed and why, then suggest next steps only when natural.
 - Use single-level bullets; no nested lists.
+
+
+## Required Guidance Files (Must Read Before Implementation)
+
+Codex must read and align with the following documents before starting any implementation.
+
+If a required file does not exist, it must be created before development begins.
+
+- `AGENTS.team.md` (if present)
+
+  Repository or team-specific constraints. Highest priority after user request.
+
+- `AGENTS.md`
+
+  Global agent execution rules.
+
+- `docs/guide/development-rules.md`
+
+  Coding standards and architectural constraints.
+
+- `docs/guide/testing-strategy.md`
+
+  Test categories, coverage scope, execution rules.
+
+- `docs/guide/done-criteria.md`
+
+  Definition of Done and acceptance checklist.
+
+- `docs/product/prd.md`
+
+  Functional requirements and business objectives.
+
+- `docs/product/data-spec.md`
+
+  Data contracts, schema definitions, validation constraints.
+
+- `docs/plan/iteration/iteration-XX-plan.md`
+
+  Current iteration scope and boundaries.
+
+
+Implementation must not begin without reviewing all relevant documents.
+
+If inconsistencies are detected between documents, pause implementation and report the conflict.
+
+---
+
+# Iteration Deliverables and Documentation Structure
+
+The following documentation structure must be maintained:
+
+```
+docs/
+├─ guide/
+│  ├─ development-rules.md
+│  ├─ testing-strategy.md
+│  └─ done-criteria.md
+├─ product/
+│  ├─ prd.md
+│  └─ data-spec.md
+├─ plan/
+│  └─ iteration/
+│     └─ iteration-01-plan.md
+├─ test/
+│  └─ results/
+│     └─ iteration-01-test-result.md
+└─ reports/
+   └─ iteration-01-result.md
+```
+
+For every iteration:
+
+- Ensure guide documents reflect current repository standards.
+- Create or update `iteration-XX-plan.md` before implementation.
+- Implement code and corresponding tests.
+- Record executed commands and results in `iteration-XX-test-result.md`.
+- Summarize delivered scope, key decisions, and open gaps in `iteration-XX-result.md`.
+
+Iteration numbering must use two digits (01, 02, 03...).
+
+No documentation step may be silently skipped.
