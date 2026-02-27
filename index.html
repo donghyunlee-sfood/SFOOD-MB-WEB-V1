@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post-it Memo Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="bg-shape bg-shape-a"></div>
+  <div class="bg-shape bg-shape-b"></div>
+
+  <div id="toast" class="notice-center" role="status" aria-live="polite"></div>
+  <div id="confirm-modal" class="confirm-modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="confirm-card">
+      <h3 id="confirm-title">Please Confirm</h3>
+      <p id="confirm-message">Are you sure?</p>
+      <div class="confirm-actions">
+        <button id="confirm-cancel-btn" class="btn" type="button">Cancel</button>
+        <button id="confirm-ok-btn" class="btn btn-strong" type="button">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <section id="login-screen" class="login-screen hidden">
+    <div class="login-shell">
+      <article class="login-hero">
+        <p class="eyebrow">MEMO BOARD</p>
+        <h1>Shape ideas on a living canvas.</h1>
+        <p class="hero-copy">Capture quick thoughts, organize board trees, and keep every memo in sync with your API workspace.</p>
+        <ul class="hero-points">
+          <li>Fast sticky-note workflow</li>
+          <li>Board tree and child pages</li>
+          <li>Session-based secure access</li>
+        </ul>
+      </article>
+      <div class="login-card">
+        <h2>Welcome back</h2>
+        <p>Continue with your Google account to open your board.</p>
+        <div class="google-login-wrap">
+          <div id="google-signin-slot"></div>
+        </div>
+      </div>
+    </div>  
+  </section>
+
+  <section id="app-screen" class="app-screen hidden">
+    <div class="layout">
+      <aside id="sidebar" class="sidebar" style="width:300px">
+        <header class="panel-header">
+          <h2>Boards</h2>
+          <button id="add-board-btn" class="btn btn-icon btn-strong" type="button" aria-label="Add board" title="Add board">+</button>
+        </header>
+        <ul id="board-list" class="board-list" aria-label="Board list"></ul>
+        <footer class="sidebar-user">
+          <button id="logout-btn" class="btn btn-icon" type="button" aria-label="Logout" title="Logout">⏻</button>
+          <div class="userbox">
+            <strong id="user-name">User</strong>
+            <span id="user-id"></span>
+          </div>
+        </footer>
+        <div id="lnb-resizer" class="lnb-resizer" aria-hidden="true"></div>
+      </aside>
+
+      <main class="canvas-wrap">
+        <header class="canvas-header">
+          <h2 id="board-title">Board</h2>
+          <div class="zoom-control" aria-label="Zoom controls">
+            <button id="zoom-out-btn" class="btn btn-icon" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+            <span id="zoom-label">100%</span>
+            <button id="zoom-in-btn" class="btn btn-icon" type="button" aria-label="Zoom in" title="Zoom in">＋</button>
+          </div>
+        </header>
+        <section id="board-canvas" class="board-canvas" aria-label="Board canvas">
+          <div id="board-loading" class="board-loading hidden" aria-live="polite">
+            <div class="board-loading-inline">
+              <span class="board-loading-spinner" aria-hidden="true"></span>
+              <span class="board-loading-text">로딩중</span>
+            </div>
+          </div>
+          <div id="canvas-stage" class="canvas-stage"></div>
+          <ul id="memo-context-menu" class="context-menu hidden" aria-label="Memo context menu">
+            <li><button data-action="front" type="button">Bring Forward</button></li>
+            <li><button data-action="back" type="button">Send Backward</button></li>
+            <li><button data-action="front-most" type="button">Bring To Front</button></li>
+            <li><button data-action="back-most" type="button">Send To Back</button></li>
+          </ul>
+        </section>
+      </main>
+    </div>
+    <ul id="memo-type-toolbar" class="memo-type-toolbar" aria-label="Memo type toolbar">
+      <li class="memo-toolbar-handle-wrap">
+        <button id="memo-toolbar-handle" class="memo-toolbar-handle" type="button" aria-label="Move memo toolbar" title="Move toolbar">⠿</button>
+      </li>
+    </ul>
+  </section>
+
+  <template id="board-item-template">
+    <li class="board-item" draggable="true">
+      <div class="board-main">
+        <button class="board-select" type="button"></button>
+        <input class="board-inline-input hidden" type="text" maxlength="20">
+      </div>
+      <div class="board-actions">
+        <button class="board-add-child btn-icon" type="button" aria-label="Add child board" title="Add child board">+</button>
+        <button class="board-rename btn-icon" type="button" aria-label="Rename board" title="Rename board">✎</button>
+        <button class="board-delete btn-icon" type="button" aria-label="Delete board" title="Delete board">🗑</button>
+      </div>
+    </li>
+  </template>
+
+  <template id="memo-card-template">
+    <article class="memo-card">
+      <div class="memo-left-actions">
+        <button class="memo-color-toggle" type="button" aria-label="Change memo color" title="Change memo color">🎨</button>
+        <div class="memo-color-palette hidden" aria-label="Memo color palette">
+          <button class="memo-color-option" type="button" data-color="#FEF3C7" style="background:#FEF3C7;"></button>
+          <button class="memo-color-option" type="button" data-color="#DBEAFE" style="background:#DBEAFE;"></button>
+          <button class="memo-color-option" type="button" data-color="#DCFCE7" style="background:#DCFCE7;"></button>
+          <button class="memo-color-option" type="button" data-color="#FCE7F3" style="background:#FCE7F3;"></button>
+          <button class="memo-color-option" type="button" data-color="#EDE9FE" style="background:#EDE9FE;"></button>
+        </div>
+      </div>
+      <div class="memo-float-actions">
+        <button class="memo-delete" type="button" aria-label="Delete memo" title="Delete memo">✖</button>
+      </div>
+
+      <div class="editor-toolbar hidden">
+        <button class="toolbar-bold" type="button"><strong>B</strong></button>
+        <button class="toolbar-italic" type="button"><em>I</em></button>
+        <button class="toolbar-underline" type="button"><u>U</u></button>
+        <button class="toolbar-strike" type="button"><s>S</s></button>
+        <button class="toolbar-list" type="button">• List</button>
+        <button class="toolbar-olist" type="button">1. List</button>
+        <label><span>Color</span><input class="toolbar-color" type="color" value="#2a2420"></label>
+        <label><span>Font</span>
+          <select class="toolbar-font">
+            <option value="Georgia, serif">Serif</option>
+            <option value="'Trebuchet MS', sans-serif">Trebuchet</option>
+            <option value="'Courier New', monospace">Mono</option>
+          </select>
+        </label>
+        <label><span>Size</span>
+          <select class="toolbar-size">
+            <option value="14">14</option>
+            <option value="16" selected>16</option>
+            <option value="18">18</option>
+            <option value="22">22</option>
+          </select>
+        </label>
+        <button class="toolbar-check" type="button">Checkbox</button>
+        <button class="toolbar-clear" type="button">Clear</button>
+        <button class="toolbar-done" type="button">Done</button>
+      </div>
+
+      <div class="memo-content-view"></div>
+      <div class="memo-content-edit hidden" contenteditable="true"></div>
+      <div class="resize-handle" aria-hidden="true"></div>
+    </article>
+  </template>
+
+  <script src="./src/core.js"></script>
+  <script src="./src/api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer onload="window.__memoGoogleLoaded && window.__memoGoogleLoaded()"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

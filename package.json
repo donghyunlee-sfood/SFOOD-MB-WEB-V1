@@ -1,10 +1,15 @@
 {
   "name": "sfood-mb-web-v1",
   "version": "1.0.0",
-  "description": "메모 보드 웹 v1",
+  "description": "memo board web v1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5173 --strictPort",
+    "test": "node --test",
+    "smoke": "node -e \"const c=require('./src/core'); console.log(c.validateBoardName('ok').valid?'ok':'fail')\"",
+    "test:api": "node test/api.e2e.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1/issues"
   },
-  "homepage": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1#readme"
+  "homepage": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1#readme",
+  "devDependencies": {
+    "vite": "^7.1.5"
+  }
 }
