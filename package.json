@@ -1,21 +1,29 @@
 {
   "name": "sfood-mb-web-v1",
   "version": "1.0.0",
-  "description": "메모 보드 웹 v1",
-  "main": "index.js",
+  "private": true,
+  "description": "Post-it board web client",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "node -e \"console.log('smoke: ok')\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1.git"
+  "dependencies": {
+    "axios": "^1.8.2",
+    "quill": "^2.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^6.30.1",
+    "zustand": "^5.0.3"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1/issues"
-  },
-  "homepage": "https://github.com/donghyunlee-sfood/SFOOD-MB-WEB-V1#readme"
+  "devDependencies": {
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
+    "@vitejs/plugin-react": "^4.4.1",
+    "typescript": "^5.8.2",
+    "vite": "^5.4.14"
+  }
 }
