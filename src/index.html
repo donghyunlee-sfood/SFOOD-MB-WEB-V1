@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SFOOD Memo Board</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Memo Board</h1>
+        <p class="subtitle">APP API connected web client</p>
+      </div>
+      <div class="auth-actions">
+        <button id="btn-me" class="btn ghost">Me</button>
+        <button id="btn-logout" class="btn ghost">Logout</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel auth-panel">
+        <h2>Login</h2>
+        <label>User ID <input id="login-user-id" type="text" placeholder="user@example.com" /></label>
+        <label>Name <input id="login-name" type="text" placeholder="User One" /></label>
+        <label>Google Token <input id="login-token" type="text" placeholder="token-for-user" /></label>
+        <button id="btn-login" class="btn primary">Manual Login</button>
+
+        <div class="divider">Google OAuth</div>
+        <label>Google Client ID <input id="google-client-id" type="text" placeholder="Google OAuth Client ID" value="720537531905-4srngg493kr4k2ql4d17e1pq3tvbiick.apps.googleusercontent.com" /></label>
+        <div class="row">
+          <button id="btn-google-init" class="btn ghost">Init Google</button>
+          <button id="btn-google-login" class="btn primary">Google Login</button>
+        </div>
+        <div id="google-render" class="google-slot"></div>
+        <div id="google-info" class="hint"></div>
+
+        <button id="btn-process-check" class="btn ghost">Check User Create Flow</button>
+        <div id="auth-info" class="hint"></div>
+      </section>
+
+      <section class="panel board-panel">
+        <h2>Boards</h2>
+        <div class="row">
+          <input id="board-id" type="text" placeholder="board-id" />
+          <button id="btn-board-auto-id" class="btn ghost">Auto ID</button>
+          <input id="board-name" type="text" placeholder="board name (max 20)" maxlength="20" />
+        </div>
+        <div class="row">
+          <button id="btn-board-create" class="btn primary">Create Board</button>
+          <button id="btn-board-list" class="btn ghost">Refresh</button>
+        </div>
+        <ul id="board-list" class="list"></ul>
+      </section>
+
+      <section class="panel memo-panel">
+        <h2>Memos</h2>
+        <div class="row">
+          <button id="btn-type-list" class="btn ghost">Load Memo Types</button>
+        </div>
+        <div id="memo-types" class="chips"></div>
+
+        <div class="row">
+          <input id="memo-id" type="text" placeholder="memo-id" />
+          <button id="btn-memo-auto-id" class="btn ghost">Auto ID</button>
+          <input id="memo-content" type="text" placeholder="memo content" />
+        </div>
+        <div class="row">
+          <input id="memo-x" type="number" placeholder="x" value="10" />
+          <input id="memo-y" type="number" placeholder="y" value="20" />
+          <input id="memo-width" type="number" placeholder="width" value="320" />
+          <input id="memo-height" type="number" placeholder="height" value="240" />
+          <input id="memo-z" type="number" placeholder="zIndex" value="1" />
+        </div>
+        <div class="row">
+          <button id="btn-memo-create" class="btn primary">Create Memo</button>
+          <button id="btn-memo-list" class="btn ghost">Refresh Memos</button>
+        </div>
+        <ul id="memo-list" class="list"></ul>
+      </section>
+    </main>
+
+    <footer class="statusbar">
+      <span id="status-message">Ready</span>
+      <span id="error-message"></span>
+    </footer>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
